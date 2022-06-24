@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: fir-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: fir-auth-route
+          uri: lb://fir-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/?(?<segment>.*), /$\{segment}
+    nacos:
+      discovery:
+        server-addr: mall-nacos:8868
+server:
+  port: 80
