@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>fir</artifactId>
-        <groupId>com.zyaxin</groupId>
+        <groupId>io.github.huafoog.fir</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.zyaxin.fir</groupId>
     <artifactId>fir-gateway</artifactId>
     <name>fir-gateway</name>
+    <groupId>io.github.huafoog.fir</groupId>
 
 
     <dependencies>

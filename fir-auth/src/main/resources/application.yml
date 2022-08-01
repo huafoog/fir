@@ -1,6 +1,6 @@
 spring:
   application:
-    name: fir-auth
+    name: @artifactId@
   cloud:
     nacos:
       discovery:
@@ -8,4 +8,4 @@ spring:
 rsa:
   publicKey: 123
 server:
-  port: 9090
+  port: 10900

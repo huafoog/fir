@@ -1,0 +1,15 @@
+package io.github.huafoog.fir.auth;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+@EnableDiscoveryClient
+@SpringBootApplication
+public class FirAuthApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(FirAuthApplication.class, args);
+    }
+
+}

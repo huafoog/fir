@@ -4,5 +4,3 @@ spring:
       config:
         server-addr: mall-nacos:8868
         file-extension: yaml
-  application:
-    name: fir-auth
