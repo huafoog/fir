@@ -34,10 +34,10 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
+ * @author 青杉
  * @date 2018/6/27 Spring 工具类
  */
 @Slf4j
-@Service
 @Lazy(false)
 public class SpringContextHolder implements BeanFactoryPostProcessor, ApplicationContextAware, DisposableBean {
 

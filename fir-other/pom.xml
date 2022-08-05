@@ -10,11 +10,18 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-
     <artifactId>fir-other</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
+    <packaging>pom</packaging>
     <modules>
-<!--        <module>fir-generator</module>-->
+        <module>fir-generator</module>
     </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

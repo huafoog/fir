@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.huafoog.fir.generator.mapper.GenMapper">
+    <select id="selectTableColumn" resultType="map">
+        SELECT
+            column_name columnName,
+            data_type dataType,
+            column_comment comments,
+            column_key columnKey,
+            extra,
+            is_nullable AS isNullable,
+            column_type AS columnType
+        FROM
+            information_schema.COLUMNS
+        WHERE
+            table_schema = (select database()) order by ordinal_position
+    </select>
+</mapper>

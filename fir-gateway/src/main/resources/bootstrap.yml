@@ -1,8 +1,48 @@
 spring:
-  cloud:
-    nacos:
-      config:
-        server-addr: mall-nacos:8868
-        file-extension: yaml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # 获取JWT验签公钥请求路径
+          jwk-set-uri: 'http://fir-auth:10900/getPublicKey'
   application:
-    name: fir-gateway
+    name: @artifactId@
+  cloud:
+    gateway:
+      routes:
+        - id: fir-auth
+          uri: lb://fir-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/?(?<segment>.*), /$\{segment}
+        - id: fir-admin
+          uri: lb://fir-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+            - RewritePath=/admin/?(?<segment>.*), /$\{segment}
+        - id: fir-generator
+          uri: lb://fir-generator
+          predicates:
+            - Path=/generator/**
+          filters:
+            - RewritePath=/generator/?(?<segment>.*), /$\{segment}
+    nacos:
+      discovery:
+        server-addr:  ${NACOS_HOST:fir-nacos}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  profiles:
+    active: @profiles.active@
+server:
+  port: 80
+system:
+  whiteList:
+    - "/swagger-ui.html"
+    - "/swagger-resources/**"
+    - "/v2/api-docs"
+    - "/admin/login"

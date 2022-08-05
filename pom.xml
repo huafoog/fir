@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
+        <fir.version>${project.version}</fir.version>
         <spring-boot.version>2.6.4</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
@@ -77,6 +78,9 @@
     <modules>
         <module>fir-auth</module>
         <module>fir-common</module>
+        <module>fir-gateway</module>
+        <module>fir-admin</module>
+        <module>fir-nacos</module>
         <module>fir-other</module>
     </modules>
 
@@ -112,6 +116,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-security-dependencies</artifactId>
+                <version>2.2.4.RELEASE</version>
             </dependency>
 
 
@@ -170,6 +179,39 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.24</version>
             </dependency>
+
+
+
+            <dependency>
+                <groupId>io.github.huafoog.fir</groupId>
+                <artifactId>fir-common-data</artifactId>
+                <version>${fir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.huafoog.fir</groupId>
+                <artifactId>fir-common-cache</artifactId>
+                <version>${fir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.huafoog.fir</groupId>
+                <artifactId>fir-common-core</artifactId>
+                <version>${fir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.huafoog.fir</groupId>
+                <artifactId>fir-common-feign</artifactId>
+                <version>${fir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.huafoog.fir</groupId>
+                <artifactId>fir-common-security</artifactId>
+                <version>${fir.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.huafoog.fir</groupId>
+                <artifactId>fir-common-swagger</artifactId>
+                <version>${fir.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -178,6 +220,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
         <resources>

@@ -9,24 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fir-common-core</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
         </dependency>
 
         <!--hutool-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
-        </dependency>
-        <!--mvc 相关配置-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

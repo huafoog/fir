@@ -15,6 +15,11 @@
 
     <modules>
         <module>fir-common-core</module>
+        <module>fir-common-feign</module>
+        <module>fir-common-cache</module>
+        <module>fir-common-security</module>
+        <module>fir-common-swagger</module>
+        <module>fir-common-data</module>
     </modules>
 
 
