@@ -117,6 +117,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	 */
 	@Override
 	public void addDynamicDataSource(GenDatasourceConf conf) {
+		conf.setPassword(stringEncryptor.decrypt(conf.getPassword()));
 		dynamicRoutingDataSource.checkCreateDataSource(conf);
 	}
 
@@ -135,8 +136,8 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 					+ "&useLegacyDatetimeCode=false&allowMultiQueries=true&allowPublicKeyRetrieval=true",conf.getHost(),conf.getPort(),conf.getDsName());
 		}
 		conf.setUrl(url);
-
-		try (Connection connection = DriverManager.getConnection(url, conf.getUsername(), conf.getPassword())) {
+		String password = stringEncryptor.decrypt(conf.getPassword()) ;
+		try (Connection connection = DriverManager.getConnection(url, conf.getUsername(), password)) {
 		}
 		catch (SQLException e) {
 			log.error("数据源配置 {} , 获取链接失败", conf.getName(), e);

@@ -33,12 +33,12 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
             }else{
                 log.info("不存在数据源：{}",datasourceName);
                 return null;
-}
+            }
         }else{
-        log.info("当前是默认数据源");
+            log.info("当前是默认数据源");
         }
         return datasourceName;
-        }
+    }
 
 
     @Override
@@ -116,7 +116,7 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
             druidDataSource.setTestOnBorrow(true);
             druidDataSource.setValidationQuery(validationQuery);
             druidDataSource.init();
-            this.customDataSources.put(dataSource.getId(),druidDataSource);
+            this.customDataSources.put(dataSource.getName(),druidDataSource);
             // 将map赋值给父类的TargetDataSources
             setTargetDataSources(this.customDataSources);
             // 将TargetDataSources中的连接信息放入resolvedDataSources管理

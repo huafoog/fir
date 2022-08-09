@@ -18,10 +18,9 @@ public interface GeneratorService {
 	 * 分页查询表
 	 * @param page 分页信息
 	 * @param tableName 表名
-	 * @param name 数据源ID
 	 * @return
 	 */
-	IPage<Map<String, Object>> getPage(Page page, String tableName, String name);
+	IPage<Map<String, Object>> getPage(Page page, String tableName);
 
 	/**
 	 * 预览代码

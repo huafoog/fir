@@ -28,8 +28,7 @@ public class GenTableColumnServiceImpl implements GenTableColumnService {
 
 		// 关闭sql 优化
 		page.setOptimizeCountSql(false);
-		IPage<ColumnEntity> columnPage = mapper.selectTableColumn(page, genConfig.getTableName(),
-				genConfig.getDsName());
+		IPage<ColumnEntity> columnPage = mapper.selectTableColumn(page, genConfig.getTableName());
 
 		// 处理 数据库类型和 Java 类型关系
 		Configuration config = GenUtils.getConfig();

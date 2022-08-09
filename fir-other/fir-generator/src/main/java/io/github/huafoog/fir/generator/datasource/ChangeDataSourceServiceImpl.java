@@ -3,6 +3,7 @@ package io.github.huafoog.fir.generator.datasource;
 import io.github.huafoog.fir.generator.datasource.holder.DataSourceContextHolder;
 import io.github.huafoog.fir.generator.entity.GenDatasourceConf;
 import io.github.huafoog.fir.generator.mapper.GenDatasourceConfMapper;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,6 +24,9 @@ public class ChangeDataSourceServiceImpl implements ChangeDataSourceService {
     @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;
 
+    @Autowired
+    private StringEncryptor encryptor;
+
     @Override
     public boolean changeDS(String datasourceId) {
         //切到默认数据源
@@ -32,8 +36,9 @@ public class ChangeDataSourceServiceImpl implements ChangeDataSourceService {
 
         if(!CollectionUtils.isEmpty(dataSourceList)){
             for (GenDatasourceConf dataSource : dataSourceList) {
-                if(dataSource != null && dataSource.getName().equals(dataSource.getName())){
-                    System.out.println("已找到数据源,datasource是：" + dataSource.getId());
+                if(dataSource != null && dataSource.getName().equals(datasourceId)){
+                    System.out.println("已找到数据源,datasource是：" + datasourceId);
+                    dataSource.setPassword(encryptor.decrypt(dataSource.getPassword()));
                     //判断连接是否存在，不存在就创建
                     dynamicRoutingDataSource.checkCreateDataSource(dataSource);
                     //切换数据源

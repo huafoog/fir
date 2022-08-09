@@ -14,20 +14,21 @@
  * this software without specific prior written permission.
  * Author: fir
  */
+package io.github.huafoog.fir.admin.service.impl;
 
-package ${package}.${moduleName}.mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import ${package}.${moduleName}.entity.${className};
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.huafoog.fir.admin.entity.OauthClientDetails;
+import io.github.huafoog.fir.admin.mapper.OauthClientDetailsMapper;
+import io.github.huafoog.fir.admin.service.OauthClientDetailsService;
+import org.springframework.stereotype.Service;
 
 /**
- * ${comments}
+ * 客户端
  *
- * @author ${author}
- * @date ${datetime}
+ * @author qs
+ * @date 2022-08-09 10:29:44
  */
-@Mapper
-public interface ${className}Mapper extends BaseMapper<${className}> {
+@Service
+public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetailsMapper, OauthClientDetails> implements OauthClientDetailsService {
 
 }

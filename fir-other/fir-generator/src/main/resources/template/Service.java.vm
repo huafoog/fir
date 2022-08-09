@@ -15,9 +15,9 @@
  * Author: fir
  */
 
-package ${package}.${moduleName}.io.github.huafoog.fir.service;
+package ${package}.${moduleName}.service;
 
-import com.baomidou.mybatisplus.extension.io.github.huafoog.fir.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.${moduleName}.entity.${className};
 
 /**

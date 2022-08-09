@@ -1,39 +1,41 @@
 <template>
-  <div class="mod-io.github.huafoog.fir.config">
-    <basic-container>
-      <el-form :inline="true" :io.github.huafoog.fir.model="dataForm" @keyup.enter.native="getDataList()">
+  <div class="app-container">
+    <el-card class="m-20">
+      <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
         <el-form-item>
-          <el-button v-if="permissions.${moduleName}_${pathName}_add" icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-          <el-button v-if="permissions.${moduleName}_${pathName}_export" icon="el-icon-download" type="primary" plain @click="exportExcel()">导出</el-button>
+          ##          <el-button v-if="permissions.${moduleName}_${pathName}_add" icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+          ##          <el-button v-if="permissions.${moduleName}_${pathName}_export" icon="el-icon-download" type="primary" plain @click="exportExcel()">导出</el-button>
+          <el-button icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
         </el-form-item>
       </el-form>
+    </el-card>
 
-      <div class="avue-crud">
-        <el-table
-                :data="dataList"
-                border
-                v-loading="dataListLoading">
-          #foreach($column in $columns)
-            <el-table-column
-                    prop="${column.lowerAttrName}"
-                    header-align="center"
-                    align="center"
-                    label="${column.comments}">
-            </el-table-column>
-          #end
+    <el-card class="m-20">
+      <el-table
+              :data="dataList"
+              border
+              v-loading="dataListLoading">
+        #foreach($column in $columns)
           <el-table-column
+                  prop="${column.lowerAttrName}"
                   header-align="center"
                   align="center"
-                  label="操作">
-            <template slot-scope="scope">
-              <el-button v-if="permissions.${moduleName}_${pathName}_edit" type="text" size="small" icon="el-icon-edit" @click="addOrUpdateHandle(scope.row.${pk.lowerAttrName})">修改</el-button>
-              <el-button v-if="permissions.${moduleName}_${pathName}_del" type="text" size="small" icon="el-icon-delete" @click="deleteHandle(scope.row.${pk.lowerAttrName})">删除</el-button>
-            </template>
+                  label="${column.comments}">
           </el-table-column>
-        </el-table>
-      </div>
-
-      <div class="avue-crud__pagination">
+        #end
+        <el-table-column
+                header-align="center"
+                align="center"
+                label="操作">
+          <template slot-scope="scope">
+            ##              <el-button v-if="permissions.${moduleName}_${pathName}_edit" type="text" size="small" icon="el-icon-edit" @click="addOrUpdateHandle(scope.row.${pk.lowerAttrName})">修改</el-button>
+            ##              <el-button v-if="permissions.${moduleName}_${pathName}_del" type="text" size="small" icon="el-icon-delete" @click="deleteHandle(scope.row.${pk.lowerAttrName})">删除</el-button>
+            <el-button type="text" size="small" icon="el-icon-edit" @click="addOrUpdateHandle(scope.row.${pk.lowerAttrName})">修改</el-button>
+            <el-button type="text" size="small" icon="el-icon-delete" @click="deleteHandle(scope.row.${pk.lowerAttrName})">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pd-t-20">
         <el-pagination
                 @size-change="sizeChangeHandle"
                 @current-change="currentChangeHandle"
@@ -45,6 +47,11 @@
                 layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
       </div>
+    </el-card>
+
+
+
+
       <!-- 弹窗, 新增 / 修改 -->
       <table-form v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></table-form>
     </basic-container>
@@ -52,9 +59,8 @@
 </template>
 
 <script>
-  import {fetchList, delObj} from '@/api/${pathName}'
-  import TableForm from './${pathName}-form'
-  import {mapGetters} from 'vuex'
+  import {fetchList, delObj} from '@/api/${moduleName}/${pathName}'
+  import TableForm from './form'
   export default {
     data () {
       return {
@@ -76,19 +82,16 @@
     created () {
       this.getDataList()
     },
-    computed: {
-      ...mapGetters(['permissions'])
-    },
     methods: {
       // 获取数据列表
-      getDataList () {
+       getDataList () {
         this.dataListLoading = true
         fetchList(Object.assign({
           current: this.pageIndex,
           size: this.pageSize
         })).then(response => {
-          this.dataList = response.data.data.records
-          this.totalPage = response.data.data.total
+          this.dataList = response.data.records
+          this.totalPage = response.data.total
         })
         this.dataListLoading = false
       },
@@ -122,10 +125,6 @@
           this.$message.success('删除成功')
           this.getDataList()
         })
-      },
-      //  导出excel
-      exportExcel() {
-        this.downBlobFile('/${moduleName}/${pathName}/export', this.searchForm,'${pathName}.xlsx')
       }
     }
   }

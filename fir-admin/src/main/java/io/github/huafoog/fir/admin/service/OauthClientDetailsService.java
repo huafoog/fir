@@ -15,19 +15,17 @@
  * Author: fir
  */
 
-package ${package}.${moduleName}.mapper;
+package io.github.huafoog.fir.admin.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import ${package}.${moduleName}.entity.${className};
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.extension.service.IService;
+import io.github.huafoog.fir.admin.entity.OauthClientDetails;
 
 /**
- * ${comments}
+ * 客户端
  *
- * @author ${author}
- * @date ${datetime}
+ * @author qs
+ * @date 2022-08-09 10:29:44
  */
-@Mapper
-public interface ${className}Mapper extends BaseMapper<${className}> {
+public interface OauthClientDetailsService extends IService<OauthClientDetails> {
 
 }

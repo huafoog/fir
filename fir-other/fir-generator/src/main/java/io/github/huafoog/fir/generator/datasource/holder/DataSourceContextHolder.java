@@ -32,6 +32,6 @@ public class DataSourceContextHolder {
      */
     public static void removeDataSource() {
         CONTEXTHOLDER.remove();
-        log.info("已切换到主数据源");
+        log.info("移除当前数据源，使用默认数据源");
     }
 }

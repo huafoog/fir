@@ -11,4 +11,8 @@ public interface  CommonConstants {
      * 工程名
      */
     String PROJECT_NAME = "fir";
+    /**
+     * 工程名
+     */
+    String PROJECT_UI_NAME = "fir-ui";
 }

@@ -60,7 +60,9 @@ public class GenUtils {
 	private final String MAPPER_XML_VM = "Mapper.xml.vm";
 
 	private final String MENU_SQL_VM = "menu.sql.vm";
-
+	private final String ELEMENT_FORM_VM = "element/form.vue.vm";
+	private final String ELEMENT_INDEX_VM = "element/index.vue.vm";
+	private final String ELEMENT_API_VM = "element/api.js.vm";
 	/**
 	 * 配置
 	 * @param config
@@ -75,6 +77,9 @@ public class GenUtils {
 		templates.add("template/ServiceImpl.java.vm");
 		templates.add("template/Controller.java.vm");
 		templates.add("template/menu.sql.vm");
+		templates.add("template/element/form.vue.vm");
+		templates.add("template/element/index.vue.vm");
+		templates.add("template/element/api.js.vm");
 		return templates;
 	}
 
@@ -226,7 +231,7 @@ public class GenUtils {
 			TableEntity tableEntity, Map<String, Object> map) throws IOException {
 		// 设置velocity资源加载器
 		Properties prop = new Properties();
-		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.io.github.huafoog.fir.resource.loader.ClasspathResourceLoader");
+		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		Velocity.init(prop);
 		VelocityContext context = new VelocityContext(map);
 		// 函数库
@@ -324,11 +329,11 @@ public class GenUtils {
 		}
 
 		if (template.contains(SERVICE_JAVA_VM)) {
-			return packagePath + "io.github.huafoog.fir.service" + File.separator + className + "Service.java";
+			return packagePath + "service" + File.separator + className + "Service.java";
 		}
 
 		if (template.contains(SERVICE_IMPL_JAVA_VM)) {
-			return packagePath + "io.github.huafoog.fir.service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
+			return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
 		}
 
 		if (template.contains(CONTROLLER_JAVA_VM)) {
@@ -343,17 +348,23 @@ public class GenUtils {
 		if (template.contains(MENU_SQL_VM)) {
 			return className.toLowerCase() + "_menu.sql";
 		}
+
+		if (template.contains(ELEMENT_FORM_VM)) {
+
+			return CommonConstants.PROJECT_UI_NAME + File.separator + "views" + File.separator
+					+ moduleName + File.separator + className.toLowerCase() + File.separator + "form.vue";
+
+		}
+		if (template.contains(ELEMENT_INDEX_VM)) {
+			return CommonConstants.PROJECT_UI_NAME + File.separator + "views" + File.separator
+					+ moduleName + File.separator + className.toLowerCase() + File.separator + "index.vue";
+		}
+
+		if (template.contains(ELEMENT_API_VM)) {
+			return CommonConstants.PROJECT_UI_NAME + File.separator + "api" + File.separator
+					+ moduleName + File.separator + className.toLowerCase() + ".js";
+		}
+
 		return null;
 	}
-
-	/**
-	 * 根据目标数据源名称动态匹配Mapper
-	 * @param dsName
-	 * @return
-	 */
-	public GeneratorMapper getMapper(String dsName) {
-		return SpringContextHolder.getApplicationContext().getBean(GeneratorMapper.class);
-
-	}
-
 }

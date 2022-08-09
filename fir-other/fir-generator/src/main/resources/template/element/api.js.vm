@@ -15,19 +15,24 @@
  * Author: fir
  */
 
-package ${package}.${moduleName}.mapper;
+import {get,post,del,put} from '@/utils/request'
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import ${package}.${moduleName}.entity.${className};
-import org.apache.ibatis.annotations.Mapper;
+export function fetchList(query) {
+  return get('/${moduleName}/${pathName}/page',query);
+}
 
-/**
- * ${comments}
- *
- * @author ${author}
- * @date ${datetime}
- */
-@Mapper
-public interface ${className}Mapper extends BaseMapper<${className}> {
+export function addObj(obj) {
+  return post('/${moduleName}/${pathName}',obj);
+}
 
+export function getObj(id) {
+  return get('/${moduleName}/${pathName}/' + id)
+}
+
+export function delObj(id) {
+  return del('/${moduleName}/${pathName}/' + id)
+}
+
+export function putObj(obj) {
+  return put('/${moduleName}/${pathName}',obj)
 }

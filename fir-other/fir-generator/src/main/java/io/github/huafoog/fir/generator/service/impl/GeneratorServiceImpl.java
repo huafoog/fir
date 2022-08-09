@@ -8,6 +8,7 @@ import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.huafoog.fir.generator.datasource.ChangeDataSourceService;
 import io.github.huafoog.fir.generator.entity.GenConfig;
 import io.github.huafoog.fir.generator.entity.GenFormConf;
 import io.github.huafoog.fir.generator.mapper.GenFormConfMapper;
@@ -15,6 +16,7 @@ import io.github.huafoog.fir.generator.mapper.GeneratorMapper;
 import io.github.huafoog.fir.generator.service.GeneratorService;
 import io.github.huafoog.fir.generator.util.GenUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -24,25 +26,22 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成器
+ * @author 青杉
  */
 @Service
 @AllArgsConstructor
 public class GeneratorServiceImpl implements GeneratorService {
 
-	private final GenFormConfMapper genFormConfMapper;
 	private final GeneratorMapper mapper;
+
 
 	/**
 	 * 分页查询表
 	 * @param tableName 查询条件
-	 * @param dsName
 	 * @return
 	 */
 	@Override
-	public IPage<Map<String, Object>> getPage(Page page, String tableName, String dsName) {
-		// 手动切换数据源
-		DynamicDataSourceContextHolder.push(dsName);
-
+	public IPage<Map<String, Object>> getPage(Page page, String tableName) {
 		// 关闭SQL 优化
 		page.setOptimizeCountSql(false);
 		return mapper.queryTable(page, tableName);
@@ -50,25 +49,14 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 	@Override
 	public Map<String, String> previewCode(GenConfig genConfig) {
-		// 根据tableName 查询最新的表单配置
-		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
-				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
-
 		String tableNames = genConfig.getTableName();
-		String dsName = genConfig.getDsName();
 
 		for (String tableName : StrUtil.split(tableNames, StrUtil.DASHED)) {
 			// 查询表信息
-			Map<String, String> table = mapper.queryTable(tableName, dsName);
+			Map<String, String> table = mapper.queryTable(tableName);
 			// 查询列信息
-			List<Map<String, String>> columns = mapper.selectMapTableColumn(tableName, dsName);
-			// 生成代码
-			if (CollUtil.isNotEmpty(formConfList)) {
-				return GenUtils.generatorCode(genConfig, table, columns, null, formConfList.get(0));
-			}
-			else {
-				return GenUtils.generatorCode(genConfig, table, columns, null, null);
-			}
+			List<Map<String, String>> columns = mapper.selectMapTableColumn(tableName);
+			return GenUtils.generatorCode(genConfig, table, columns, null, null);
 		}
 		return MapUtil.empty();
 	}
@@ -80,31 +68,20 @@ public class GeneratorServiceImpl implements GeneratorService {
 	 */
 	@Override
 	public byte[] generatorCode(GenConfig genConfig) {
-		// 根据tableName 查询最新的表单配置
-		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
-				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
-
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
 		String tableNames = genConfig.getTableName();
-		String dsName = genConfig.getDsName();
 
 		for (String tableName : StrUtil.split(tableNames, StrUtil.DASHED)) {
 			// 查询表信息
-			Map<String, String> table = mapper.queryTable(tableName, dsName);
+			Map<String, String> table = mapper.queryTable(tableName);
 			// 查询列信息
-			List<Map<String, String>> columns = mapper.selectMapTableColumn(tableName, dsName);
+			List<Map<String, String>> columns = mapper.selectMapTableColumn(tableName);
 			// 生成代码
-			if (CollUtil.isNotEmpty(formConfList)) {
-				GenUtils.generatorCode(genConfig, table, columns, zip, formConfList.get(0));
-			}
-			else {
-				GenUtils.generatorCode(genConfig, table, columns, zip, null);
-			}
+			GenUtils.generatorCode(genConfig, table, columns, zip, null);
 		}
 		IoUtil.close(zip);
 		return outputStream.toByteArray();
 	}
-
 }

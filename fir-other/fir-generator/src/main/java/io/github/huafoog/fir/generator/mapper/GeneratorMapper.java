@@ -28,10 +28,9 @@ public interface GeneratorMapper {
     /**
      * 查询表信息
      * @param tableName 表名称
-     * @param dsName 数据源名称
      * @return
      */
-    Map<String, String> queryTable(@Param("tableName") String tableName, String dsName);
+    Map<String, String> queryTable(@Param("tableName") String tableName);
 
     /**
      * 分页查询表分页信息
@@ -40,8 +39,7 @@ public interface GeneratorMapper {
      * @param dsName
      * @return
      */
-    IPage<ColumnEntity> selectTableColumn(Page page, @Param("tableName") String tableName,
-                                          @Param("dsName") String dsName);
+    IPage<ColumnEntity> selectTableColumn(Page page, @Param("tableName") String tableName);
 
     /**
      * 查询表全部列信息
@@ -49,7 +47,7 @@ public interface GeneratorMapper {
      * @param dsName
      * @return
      */
-    List<ColumnEntity> selectTableColumn(@Param("tableName") String tableName, @Param("dsName") String dsName);
+    List<ColumnEntity> selectTableColumn(@Param("tableName") String tableName);
 
     /**
      * 查询表全部列信息
@@ -57,5 +55,5 @@ public interface GeneratorMapper {
      * @param dsName 数据源名称
      * @return
      */
-    List<Map<String, String>> selectMapTableColumn(@Param("tableName") String tableName, String dsName);
+    List<Map<String, String>> selectMapTableColumn(@Param("tableName") String tableName);
 }
